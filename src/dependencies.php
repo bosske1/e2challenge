@@ -17,3 +17,15 @@ $container['logger'] = function ($c) {
     $logger->pushHandler(new Monolog\Handler\StreamHandler($settings['path'], $settings['level']));
     return $logger;
 };
+
+$container['guzzle'] = function ($c) {
+    return new \GuzzleHttp\Client(['timeout' => 1500]);
+};
+
+$container['matchBuilder'] = function ($c) {
+    return new \Widget\Services\MatchBuilder();
+};
+
+$container['matchService'] = function (\Psr\Container\ContainerInterface $c) {
+    return new \Widget\Services\MatchService($c->get('guzzle'), $c->get('matchBuilder'), $c->get('settings')['matchesUrl']);
+};

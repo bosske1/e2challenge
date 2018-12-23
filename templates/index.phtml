@@ -26,13 +26,23 @@
         </style>
     </head>
     <body>
-        <h1>Slim</h1>
-        <div>a microframework for PHP</div>
+        <h1>Matches</h1>
 
         <?php if (isset($name)) : ?>
             <h2>Hello <?= htmlspecialchars($name); ?>!</h2>
         <?php else: ?>
             <p>Try <a href="http://www.slimframework.com">SlimFramework</a></p>
         <?php endif; ?>
+        <?php
+            /**
+            * @var \Widget\Models\Match $match
+            */
+            foreach ($matches as $match) {
+        ?>
+                <span><?php echo $match->getHomeTeam()->getName() ?> : <?php echo $match->getAwayTeam()->getName() ?></span>
+        <?php
+            }
+        ?>
+
     </body>
 </html>
