@@ -7,7 +7,8 @@ use Slim\Http\Response;
 
 $app->get('/matches', function (Request $request, Response $response, array $args) {
     $dateFrom = new \DateTime();
-    $dateTo = (new \DateTime())->modify('+3 day');
+    $dateTo = (new \DateTime())->modify('+2 day');
+    $dateTo->setTime(23,59,59,0);
 
     $matches = $this->matchService->firstLoadMatches($dateFrom, $dateTo)->thenSortMatches()->finallyReturnSortedMatches();
 

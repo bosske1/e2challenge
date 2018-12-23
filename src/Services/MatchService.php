@@ -78,8 +78,10 @@ class MatchService
 
         // Now let's process some data:
         foreach ($this->loadedMatchResponses as $loadedMatchResponse) {
-            foreach ($loadedMatchResponse[self::DATA_KEY_DATA] as $loadedMatch) {
-                $this->parsedMatches[] = $this->matchBuilder->buildMatch($loadedMatch, $loadedMatchResponse[self::DATA_KEY_ATTACHMENTS]);
+            if (isset($loadedMatchResponse[self::DATA_KEY_DATA]) && is_array($loadedMatchResponse[self::DATA_KEY_DATA])) {
+                foreach ($loadedMatchResponse[self::DATA_KEY_DATA] as $loadedMatch) {
+                    $this->parsedMatches[] = $this->matchBuilder->buildMatch($loadedMatch, $loadedMatchResponse[self::DATA_KEY_ATTACHMENTS]);
+                }
             }
         }
 
@@ -106,6 +108,8 @@ class MatchService
                         ($a->getCompetition()->getGlobalImportance() === $b->getCompetition()->getGlobalImportance() ? $a->getMatchDate() > $b->getMatchDate() : 1);
                 }
             );
+
+            $sortedMatchesData['data'] = array_slice($sortedMatchesData['data'], 0, 15);
         }
 
         return $this;
