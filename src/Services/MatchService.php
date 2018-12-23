@@ -5,6 +5,7 @@ namespace Widget\Services;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
+use Widget\Models\Match;
 
 /**
  * Class MatchService
@@ -90,7 +91,23 @@ class MatchService
      */
     public function thenSortMatches(): MatchService
     {
-        $this->sortedMatches = $this->parsedMatches;
+        /**
+         * @var Match $parsedMatch
+         */
+        foreach ($this->parsedMatches as $parsedMatch) {
+            $this->sortedMatches[$parsedMatch->getMatchDate()->format('Y-m-d')]['matchDate'] = $parsedMatch->getMatchDate()->format('d.m.Y');
+            $this->sortedMatches[$parsedMatch->getMatchDate()->format('Y-m-d')]['data'][] = $parsedMatch;
+        }
+
+        foreach ($this->sortedMatches as $date => &$sortedMatchesData) {
+            uasort($sortedMatchesData['data'],
+                function (Match $a, Match $b) {
+                    return ($a->getCompetition()->getGlobalImportance() > $b->getCompetition()->getGlobalImportance()) ? -1 :
+                        ($a->getCompetition()->getGlobalImportance() === $b->getCompetition()->getGlobalImportance() ? $a->getMatchDate() > $b->getMatchDate() : 1);
+                }
+            );
+        }
+
         return $this;
     }
 

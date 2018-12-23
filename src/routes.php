@@ -6,9 +6,6 @@ use Slim\Http\Response;
 // Routes
 
 $app->get('/matches', function (Request $request, Response $response, array $args) {
-    // Sample log message
-    $this->logger->info("Slim-Skeleton '/' route");
-
     $dateFrom = new \DateTime();
     $dateTo = (new \DateTime())->modify('+3 day');
 
@@ -22,19 +19,19 @@ $app->get('/matches', function (Request $request, Response $response, array $arg
         $response,
         'index.phtml',
         [
-            'matches' => $matches,
+            'matchDates' => $matches,
             'urlBase' => $matchesUrl,
             'imageRenderer' => function(\Widget\Models\Team $team) use ($guzzle, $matchesUrl) {
-                $imageHtml = "";
+                $image = "";
                 try {
                     $imageDataRaw = $guzzle->get($matchesUrl . $team->getImageUrl());
                     $imageData = json_decode($imageDataRaw->getBody(), true);
-                    $imageHtml = "<img src='data:" . $imageData['data']['mime'] . ";base64," . $imageData['data']['src'] . "' />";
+                    $image = "data:" . $imageData['data']['mime'] . ";base64," . $imageData['data']['src'];
                 } catch (\GuzzleHttp\Exception\ClientException $clientException) {
                     // handle or something:
                 }
 
-                return $imageHtml;
+                return $image;
             }
         ]
     );
