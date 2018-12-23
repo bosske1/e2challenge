@@ -15,11 +15,11 @@
             <?php foreach ($matchDates as $date => $matchDateData ) { ?>
             <div class="card card-body">
                 <p>
-                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample<?php echo $date; ?>" aria-expanded="false" aria-controls="collapseExample<?php echo $date; ?>">
-                        <?php echo $matchDateData['matchDate']; ?>
+                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample<?php echo htmlspecialchars($date); ?>" aria-expanded="false" aria-controls="collapseExample<?php echo htmlspecialchars($date); ?>">
+                        <?php echo htmlspecialchars($matchDateData['matchDate']); ?>
                     </button>
                 </p>
-                <div class="collapse" id="collapseExample<?php echo $date; ?>">
+                <div class="collapse" id="collapseExample<?php echo htmlspecialchars($date); ?>">
                     <div class="card card-body">
                         <ul class="list-group">
                             <?php
@@ -32,7 +32,7 @@
                                 <span><?php echo $match->getMatchDate()->format('H:i') ?> </span>
                                 <span> <img src="<?php echo $imageRenderer($match->getHomeTeam()); ?>" /> <?php echo htmlspecialchars($match->getHomeTeam()->getName()); ?> : <?php echo htmlspecialchars($match->getAwayTeam()->getName()); ?> <img src="<?php echo $imageRenderer($match->getAwayTeam()); ?>" />
                                 </span>
-                                <span><?php echo $match->getCompetition()->getName() . ' (' . $match->getCompetition()->getGlobalImportance() . ')' ?> </span>
+                                <span><?php echo htmlspecialchars($match->getCompetition()->getName()) . ' (' . htmlspecialchars($match->getCompetition()->getGlobalImportance()) . ')' ?> </span>
                             </li>
                                 <?php
                             }
