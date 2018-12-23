@@ -39,7 +39,8 @@
             */
             foreach ($matches as $match) {
         ?>
-                <span><?php echo $match->getHomeTeam()->getName() ?> : <?php echo $match->getAwayTeam()->getName() ?></span>
+                <span> <?php echo $imageRenderer($match->getHomeTeam()); ?> <?php echo $match->getHomeTeam()->getName() ?> : <?php echo $match->getAwayTeam()->getName() ?> <?php echo $imageRenderer($match->getAwayTeam()); ?></span>
+                <br/>
         <?php
             }
         ?>
