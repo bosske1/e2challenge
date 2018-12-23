@@ -5,7 +5,7 @@ use Slim\Http\Response;
 
 // Routes
 
-$app->get('/matches', function (Request $request, Response $response, array $args) {
+$app->get('/', function (Request $request, Response $response, array $args) {
     $dateFrom = new \DateTime();
     $dateTo = (new \DateTime())->modify('+2 day');
     $dateTo->setTime(23,59,59,0);
